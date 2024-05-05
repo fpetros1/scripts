@@ -1,0 +1,101 @@
+#!/bin/bash
+
+HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.json"
+
+reset() {
+    jq --null-input '{"current": 0, "harpoons": []}' > "$HARPOON_FILE"
+    exit 0
+}
+
+if [[ ! -f "$HARPOON_FILE" ]]; then
+    reset
+fi
+
+HARPOON_CONTENT=$(cat "$HARPOON_FILE")
+
+get_current_harpoon_index() {
+    echo "$HARPOON_CONTENT" | jq -r '.current'
+    exit 0
+}
+
+get_current_harpoon() {
+    LENGTH=$(echo "$HARPOON_CONTENT" | jq -r '.harpoons | length')
+
+    if [[ "$LENGTH" == "0" ]]; then
+        exit 1
+    fi
+
+    echo "$HARPOON_CONTENT" | jq -r '.harpoons[.current]'
+    exit 0
+}
+
+add_harpoon() {
+    if [[ ! -d "$1" ]]; then
+       exit 1 
+    fi
+
+    echo "$HARPOON_CONTENT" \
+        | jq --arg HARPOON "$1" '. | {"current": .current,"harpoons": (.harpoons + [$HARPOON])}' \
+        > "$HARPOON_FILE"
+
+    exit 0
+}
+
+get_length() {
+    echo "$HARPOON_CONTENT" | jq -r '.harpoons | length'
+}
+
+next_harpoon() {
+    LENGTH=$(get_length)
+
+    if [[ -z "$LENGTH" ]] || [[ "$LENGTH" == 0 ]]; then
+        exit 0
+    fi
+    
+    NEXT=$(bc <<< "$(echo "$HARPOON_CONTENT" | jq -r '.current') + 1")
+
+    if [[ "$NEXT" -gt $(bc <<< "$LENGTH - 1") ]]; then
+        NEXT=0
+    fi
+
+    HARPOON_CONTENT=$(echo "$HARPOON_CONTENT" | jq --argjson NEXT $NEXT '. | {"current": $NEXT,"harpoons": .harpoons}')
+    echo "$HARPOON_CONTENT" > "$HARPOON_FILE"
+
+    get_current_harpoon
+}
+
+previous_harpoon() {
+    LENGTH=$(get_length)
+    
+    if [[ -z "$LENGTH" ]] || [[ "$LENGTH" == 0 ]]; then
+        exit 0
+    fi
+    
+    NEXT=$(bc <<< "$(echo "$HARPOON_CONTENT" | jq -r '.current') - 1")
+
+    if [[ "$NEXT" -lt 0 ]]; then
+        NEXT=$(bc <<< "$LENGTH - 1")
+    fi
+
+    HARPOON_CONTENT=$(echo "$HARPOON_CONTENT" | jq --argjson NEXT $NEXT '. | {"current": $NEXT,"harpoons": .harpoons}')
+    echo "$HARPOON_CONTENT" > "$HARPOON_FILE"
+
+    get_current_harpoon
+}
+
+list_harpoons() {
+    echo "$HARPOON_CONTENT" | jq -r '.harpoons[]'
+    exit 0
+}
+
+case "$1" in
+    current\_index) get_current_harpoon_index;;
+    current) get_current_harpoon;;
+    length) get_length;;
+    add) add_harpoon "$2";;
+    next) next_harpoon;;
+    previous) previous_harpoon;;
+    reset) reset;;
+    *) list_harpoons;; 
+esac
+

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+pidof hyprlock || (change-wallpaper "$(get-current-wallpaper)" && hyprlock)

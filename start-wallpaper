@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source $(which set-hyprland-socket)
+hyprpaper &
