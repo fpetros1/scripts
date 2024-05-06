@@ -1,10 +1,16 @@
 #!/bin/bash
 
-HARPOON_FILE="$XDG_RUNTIME_DIR/harpoon.$USER.json"
+BASE_FOLDER=$([[ -z "$XDG_DATA_HOME" ]] && echo "$XDG_DATA_HOME/harpoon" \
+    || echo "$HOME/.local/share/harpoon")
+
+if [[ ! -d "$BASE_FOLDER" ]]; then
+    mkdir -p "$BASE_FOLDER"
+fi
+
+HARPOON_FILE="$BASE_FOLDER/harpoon.dir.json"
 
 reset() {
     jq --null-input '{"current": 0, "harpoons": []}' > "$HARPOON_FILE"
-    exit 0
 }
 
 if [[ ! -f "$HARPOON_FILE" ]]; then
@@ -16,6 +22,11 @@ HARPOON_CONTENT=$(cat "$HARPOON_FILE")
 get_current_harpoon_index() {
     echo "$HARPOON_CONTENT" | jq -r '.current'
     exit 0
+}
+
+exists() {
+    HARPOON=$(echo "$HARPOON_CONTENT" | jq -r --arg ELEM "$1" '.harpoons[] | select(. == $ELEM)')
+    [[ -z "$HARPOON" ]] && echo false || echo true
 }
 
 get_current_harpoon() {
@@ -34,11 +45,28 @@ add_harpoon() {
        exit 1 
     fi
 
+    if [[ $(exists "$1") == true ]]; then
+       echo "Harpoon already added!"
+       exit 0
+    fi
+
     echo "$HARPOON_CONTENT" \
-        | jq --arg HARPOON "$1" '. | {"current": .current,"harpoons": (.harpoons + [$HARPOON])}' \
+        | jq --argjson CURRENT $(get_length) --arg HARPOON "$1" '. | {"current": $CURRENT,"harpoons": (.harpoons + [$HARPOON])}' \
         > "$HARPOON_FILE"
 
     exit 0
+}
+
+remove_harpoon() {
+    NEW_CURRENT=$(bc <<< "$(get_current_harpoon_index) - 1")
+
+    if [[ "$NEW_CURRENT" -lt 0 ]]; then
+       NEW_CURRENT=0 
+    fi
+    
+    echo "$HARPOON_CONTENT" \
+        | jq --argjson CURRENT $NEW_CURRENT --arg HARPOON "$1" '. | {"current": $CURRENT,"harpoons": [.harpoons[] | select(. != $HARPOON)]}' \
+        > "$HARPOON_FILE"
 }
 
 get_length() {
@@ -93,9 +121,10 @@ case "$1" in
     current) get_current_harpoon;;
     length) get_length;;
     add) add_harpoon "$2";;
+    remove) remove_harpoon "$2";;
     next) next_harpoon;;
     previous) previous_harpoon;;
-    reset) reset;;
+    clear) reset;;
     *) list_harpoons;; 
 esac
 

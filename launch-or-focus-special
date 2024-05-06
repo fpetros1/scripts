@@ -5,7 +5,7 @@ BIN=""
 
 proc_bin_override() {
     case "$1" in
-        steam) BIN="steam-native";;
+        #steam) BIN="steam-native";;
         *) BIN="$1";;
     esac
 }

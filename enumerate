@@ -1,0 +1,10 @@
+#!/bin/bash
+
+NUM=1
+
+while read arg
+do
+    echo "$NUM - $arg"
+    NUM=$(bc <<< "$NUM + 1")
+done < /dev/stdin
+
