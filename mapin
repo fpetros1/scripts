@@ -2,5 +2,5 @@
 
 while read arg
 do
-	echo $("$@" "$arg")
+	echo $("$@" <<< "$arg")
 done < /dev/stdin

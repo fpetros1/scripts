@@ -18,9 +18,9 @@ if [[ -n $SELECTED ]]; then
 
     case "$ACTION" in
         Run) exec "$SCRIPT_REAL_PATH";;
-        Edit) exec "$TERMINAL" --class "script-editor" "$EDITOR" "$SCRIPT_REAL_PATH";;
+        Edit) $TERMINAL --class "script-editor" "$EDITOR" "$SCRIPT_REAL_PATH";;
         Make\ Executable) exec chmod +x "$SCRIPT_REAL_PATH";;
-        Create\ Link) "$TERMINAL" --class update-system doas ln -fs "$SCRIPT_REAL_PATH" "/usr/bin/$SELECTED";;
+        Create\ Link) $TERMINAL --class update-system doas ln -fs "$SCRIPT_REAL_PATH" "/usr/bin/$SELECTED";;
         *) exit
     esac	
 fi

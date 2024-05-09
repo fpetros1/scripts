@@ -4,7 +4,7 @@ SEARCH=$([[ -z "$@" ]] && rofi -p "Search paru:" -dmenu || echo "$@")
 SELECTED=$(paru -Ss "$SEARCH" | grep "^.*/.* \[" | rofi -dmenu -i -p "PKG:" | awk '{print $1;}')
 
 if [[ ! -z $SELECTED ]]; then 
-    "$TERMINAL" --class update-system paru -S $SELECTED; pause
+    $TERMINAL --class update-system paru -S $SELECTED; pause
 fi
 
 
