@@ -1,6 +1,5 @@
 #!/bin/bash
 
-trap "hyprctl hyprpaper unload all" SIGINT ERR EXIT
 source $(which set-hyprland-socket)
 
 set_wallpaper() {

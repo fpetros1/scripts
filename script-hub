@@ -5,7 +5,8 @@ SCRIPTS_DIR="$hypr/scripts"
 SELECTED="$(command find $SCRIPTS_DIR | \
 	prune-dirs | \
 	map basename | \
-	cut -d'.' -f1 | \
+    grep -v "^\." | \
+    cut -d'.' -f1 | \
 	rofi -dmenu -i -p "Pick a Script:")"
 
 if [[ -n $SELECTED ]]; then
@@ -19,7 +20,7 @@ if [[ -n $SELECTED ]]; then
         Run) exec "$SCRIPT_REAL_PATH";;
         Edit) exec "$TERMINAL" --class "script-editor" "$EDITOR" "$SCRIPT_REAL_PATH";;
         Make\ Executable) exec chmod +x "$SCRIPT_REAL_PATH";;
-        Create\ Link) sudo ln -fs "$SCRIPT_REAL_PATH" "/usr/bin/$SELECTED";;
+        Create\ Link) "$TERMINAL" --class update-system doas ln -fs "$SCRIPT_REAL_PATH" "/usr/bin/$SELECTED";;
         *) exit
     esac	
 fi

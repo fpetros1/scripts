@@ -1,0 +1,26 @@
+#!/bin/bash
+
+APPS_DIR="$HOME/Applications"
+
+SELECTED="$(command find $APPS_DIR | \
+	prune-dirs | \
+	map basename | \
+    grep "AppImage$" | \
+    sed 's|\.AppImage||g'| \
+    cut -d '_' -f1 | \
+    rofi -dmenu -i -p "Pick a AppImage:")"
+
+if [[ -n $SELECTED ]]; then
+	ACTION=$(echo -e "Integrate\nUnintegrate" | rofi -dmenu -p "Choose an Action:")
+
+	APPIMAGE_REAL_PATH=$(find "$APPS_DIR" -wholename "*/$SELECTED*")
+
+    case "$ACTION" in
+        Integrate) ail-cli integrate "$APPIMAGE_REAL_PATH";;
+        Unintegrate) ail-cli unintegrate "$APPIMAGE_REAL_PATH";;
+        *) exit
+    esac	
+fi
+
+
+    

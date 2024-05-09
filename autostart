@@ -13,13 +13,13 @@ systemctl --user start xdg-desktop-portal
 systemctl --user start xdg-desktop-portal-hyprland &
 systemctl --user start xdg-desktop-portal-gtk &
 
+echo "$HYPRLAND_INSTANCE_SIGNATURE" > "$HYPR_SIG_FILE"
 udiskie &
 start-wallpaper &
 blueman-tray &
 nm-applet --indicator &
 motrix &
-/usr/lib/kdeconnectd &
-kdeconnect-indicator &
+start-kdeconnect &
 start-devicebattery &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 protonmail-bridge --no-window &
@@ -27,6 +27,5 @@ xwayland-config &
 start-update-check &
 start-statusbar &
 start-notifications &
-hypridle &
+start-idle &
 #hyprpm reload -n &
-(echo "$HYPRLAND_INSTANCE_SIGNATURE" > "$HYPR_SIG_FILE") &

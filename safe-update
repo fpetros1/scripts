@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sudo timeshift --create --comments "$*"
+doas timeshift --create --comments "$*"
 paru -Syu

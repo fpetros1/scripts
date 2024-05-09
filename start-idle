@@ -3,7 +3,7 @@
 source $(which set-hyprland-socket)
 
 while true; do
-    killall -q hyprpaper
-    hyprpaper &
+    killall -q hypridle
+    hypridle &
     wait %1
 done
