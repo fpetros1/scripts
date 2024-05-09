@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SINKS=$(pactl --format=json list sinks)
+
+SELECTED=$(echo "$SINKS" | jq -r '.[] | .description' | rofi -dmenu -p "Audio Device:")
+
+[[ ! -z "$SELECTED" ]] &&\
+    pactl set-default-sink $(echo "$SINKS" | jq --arg DESC "$SELECTED" -r '.[] | select(.description == $DESC) | .index')

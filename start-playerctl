@@ -1,0 +1,8 @@
+#!/bin/bash
+
+trap "killall -q playerctld; exit" SIGINT ERR EXIT
+
+while true; do
+    playerctld &
+    wait %1
+done

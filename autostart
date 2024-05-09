@@ -13,12 +13,15 @@ systemctl --user start xdg-desktop-portal
 systemctl --user start xdg-desktop-portal-hyprland &
 systemctl --user start xdg-desktop-portal-gtk &
 
+sleep 3
+
 echo "$HYPRLAND_INSTANCE_SIGNATURE" > "$HYPR_SIG_FILE"
 udiskie &
 start-wallpaper &
 blueman-tray &
 nm-applet --indicator &
 motrix &
+start-playerctl &
 start-kdeconnect &
 start-devicebattery &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
