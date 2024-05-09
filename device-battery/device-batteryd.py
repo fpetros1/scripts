@@ -181,10 +181,10 @@ def handle_client(client):
         device_string += f'{model}, {state}, {percentage}\n'
 
     average_battery = int(sum(battery_numbers) / len(battery_numbers))
-    icon = determine_battery_icon(average_battery, devices)
+    icon = f"<big>{determine_battery_icon(average_battery, devices)}</big>"
 
     json_response = {
-        "text": f'{icon} {average_battery}%',
+        "text": f'{icon} <span color="#DCD7BA">{average_battery}%</span>',
         "alt": f'{icon}',
         "tooltip": device_string
     }

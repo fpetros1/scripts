@@ -7,4 +7,4 @@ GPU_PCT=$(cat /sys/class/hwmon/hwmon4/device/gpu_busy_percent)
 
 #echo "<big>󰡁</big> $(bc <<< "scale=2;$GPU_CLK_MHZ/1000" | sed 's/^\./0./')Ghz <span color=\"darkgray\">| $GPU_PCT%</span>"
 
-echo "<big>󰡁</big><span color=\"darkgray\"> $GPU_PCT%</span>"
+echo "<big>󰡁</big><span color=\"#DCD7BA\"> $GPU_PCT%</span>"
