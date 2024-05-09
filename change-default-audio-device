@@ -1,8 +1,16 @@
 #!/bin/bash
 
-SINKS=$(pactl --format=json list sinks)
+PPWIRE_TYPE="PipeWire:Interface:Node"
+SINK_FACTORY_NAME="api.alsa.pcm.sink"
+
+SINKS=$(pw-dump | jq -r \
+    --arg PPWIRE_TYPE "$PPWIRE_TYPE" \
+    --arg SINK_FACTORY_NAME "$SINK_FACTORY_NAME" \
+    --arg PROP_FAC_NAME "factory.name"\
+    --arg PROP_NODE_DESC "node.description"\
+    '[.[] | select(.type == $PPWIRE_TYPE and .info.props[$PROP_FAC_NAME] == $SINK_FACTORY_NAME)] | map({"id": .id, "description": .info.props[$PROP_NODE_DESC]})')
 
 SELECTED=$(echo "$SINKS" | jq -r '.[] | .description' | rofi -dmenu -p "Audio Device:")
 
 [[ ! -z "$SELECTED" ]] &&\
-    pactl set-default-sink $(echo "$SINKS" | jq --arg DESC "$SELECTED" -r '.[] | select(.description == $DESC) | .index')
+    wpctl set-default $(echo "$SINKS" | jq --arg DESC "$SELECTED" -r '.[] | select(.description == $DESC) | .id')
