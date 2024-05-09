@@ -1,14 +1,14 @@
 #!/bin/bash
 
 PPWIRE_TYPE="PipeWire:Interface:Node"
-SINK_FACTORY_NAME="api.alsa.pcm.sink"
+SINK_MEDIA_CLASS="Audio/Sink"
 
 SINKS=$(pw-dump | jq -r \
     --arg PPWIRE_TYPE "$PPWIRE_TYPE" \
-    --arg SINK_FACTORY_NAME "$SINK_FACTORY_NAME" \
-    --arg PROP_FAC_NAME "factory.name"\
+    --arg SINK_MEDIA_CLASS "$SINK_MEDIA_CLASS" \
+    --arg PROP_MC_NAME "media.class"\
     --arg PROP_NODE_DESC "node.description"\
-    '[.[] | select(.type == $PPWIRE_TYPE and .info.props[$PROP_FAC_NAME] == $SINK_FACTORY_NAME)] | map({"id": .id, "description": .info.props[$PROP_NODE_DESC]})')
+    '[.[] | select(.type == $PPWIRE_TYPE and .info.props[$PROP_MC_NAME] == $SINK_MEDIA_CLASS)] | map({"id": .id, "description": .info.props[$PROP_NODE_DESC]})')
 
 SELECTED=$(echo "$SINKS" | jq -r '.[] | .description' | rofi -dmenu -p "Audio Device:")
 
