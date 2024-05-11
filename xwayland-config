@@ -1,16 +1,18 @@
 #!/bin/bash
 
 # Wait for XWayland to Start
-XWAYLAND_PID=$(ps aux | grep Xwayland | grep -v grep)
+XWAYLAND_PID=$(pidof Xwayland)
 
-while [ -z "${XWAYLAND_PID}" ]; do
+while [[ -z "$XWAYLAND_PID" ]]; do
 	echo "XWayland not found, sleeping for 5 seconds"
 	sleep 5
-	XWAYLAND_PID=$(ps aux | grep Xwayland | grep -v grep)
+	XWAYLAND_PID=$(pidof Xwayland)
 done
 
 # Allow xhost for all local users
 xhost + local:
 
+MAIN_MONITOR_RESOLUTION=$(hyprctl monitors -j | jq -r '.[0] | (.width|tostring) + "x" + (.height|tostring)')
+
 # Set XWayland Primary Monitor
-xrandr --output "$(xrandr | awk '/3440x1440/ {print $1}' | head -n 1)" --primary
+xrandr --output "$(xrandr | awk '/'"$MAIN_MONITOR_RESOLUTION"'/ {print $1}' | head -n 1)" --primary
