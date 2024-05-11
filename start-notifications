@@ -2,8 +2,8 @@
 
 trap "killall -q swaync; exit" SIGINT
 
-CONFIG="$hypr/swaync/config.json"
-STYLE="$hypr/swaync/style.css"
+CONFIG="$hypr/config/swaync/config.json"
+STYLE="$hypr/config/swaync/style.css"
 
 CONFIG_FILES="$CONFIG $STYLE"
 

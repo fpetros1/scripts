@@ -1,8 +1,8 @@
 #!/bin/bash
 
-CONFIG="$hypr/waybar/config-hypr.jsonc"
-STYLE="$hypr/waybar/style.css"
-MODULES="$hypr/waybar/modules.jsonc"
+CONFIG="$hypr/config/waybar/config-hypr.jsonc"
+STYLE="$hypr/config/waybar/style.css"
+MODULES="$hypr/config/waybar/modules.jsonc"
 
 CONFIG_FILES="$CONFIG $STYLE $MODULES"
 
