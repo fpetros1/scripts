@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [[ ! -z "$STEAM_APPID" ]] && [[ "$PROTON_USE_EOS" -eq 1 ]]; then
+    COMPAT_DATA_FOLDER=$(find $HOME \
+        -path "$HOME/.local" -prune -o \
+        -path "$HOME/.config" -prune -o \
+        -path "$HOME/.cache" -prune -o \
+        -iwholename "*steamapps/compatdata/$STEAM_APPID" -print)
+
+    if [[ ! -z "$COMPAT_DATA_FOLDER" ]]; then
+        [[ -z "$XDG_CONFIG_HOME" ]] && XDG_CONFIG_HOME="$HOME/.config"
+
+        PREFIX="$COMPAT_DATA_FOLDER/pfx"
+
+        if [[ -d "$PREFIX" ]]; then
+            EOS_OVERLAY="$XDG_CONFIG_HOME/heroic/tools/eos_overlay"
+
+            legendary eos-overlay install --path "$EOS_OVERLAY"\
+                --prefix "$PREFIX" 
+
+            legendary eos-overlay enable --path "$EOS_OVERLAY"\
+                --prefix "$PREFIX" 
+        fi
+    fi
+fi
+
+"$@"
+
