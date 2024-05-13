@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ -z "$1" ]]; then
+    "$EDITOR" .
+    exit
+fi
+
+OLD_PWD=$(pwd)
+
+trap "cd $OLD_PWD; exit" SIGINT ERR EXIT
+
+[[ -d "$1" ]] && (cd "$1" && "$EDITOR" .) || (cd $(dirname "$1") && "$EDITOR" "$1")
