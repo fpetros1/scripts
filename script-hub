@@ -12,13 +12,11 @@ SELECTED="$(command find $SCRIPTS_DIR | \
 if [[ -n $SELECTED ]]; then
 	ACTION=$(echo -e "Run\nEdit\nMake Executable\nCreate Link" | rofi -dmenu -p "Choose an Action:")
 
-	SCRIPT_REAL_PATH=$(find "$SCRIPTS_DIR" -wholename "*/$SELECTED")
-
-    echo "$SCRIPT_REAL_PATH"
+	SCRIPT_REAL_PATH=$(find "$SCRIPTS_DIR" -wholename "*/$SELECTED*")
 
     case "$ACTION" in
         Run) exec "$SCRIPT_REAL_PATH";;
-        Edit) $TERMINAL --class "script-editor" "$EDITOR" "$SCRIPT_REAL_PATH";;
+        Edit) $TERMINAL --class "script-editor" launch-editor "$SCRIPT_REAL_PATH";;
         Make\ Executable) exec chmod +x "$SCRIPT_REAL_PATH";;
         Create\ Link) $TERMINAL --class update-system doas ln -fs "$SCRIPT_REAL_PATH" "/usr/bin/$SELECTED";;
         *) exit

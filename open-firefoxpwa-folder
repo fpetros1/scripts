@@ -9,6 +9,4 @@ if [ "$2" == "gui" ]; then
     exit 0
 fi
 
-EDITOR=$([ ! -z "$EDITOR" ] && echo "$EDITOR" || echo "nvim")
-
-"$EDITOR" "$TARGET"
+launch-editor "$TARGET"

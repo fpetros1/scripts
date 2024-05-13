@@ -6,6 +6,4 @@ if [ "$1" == "gui" ]; then
     exit 0
 fi
 
-EDITOR=$([ ! -z "$EDITOR" ] && echo "$EDITOR" || echo "nvim")
-
-"$EDITOR" -c "e $hypr"
+launch-editor "$hypr"
