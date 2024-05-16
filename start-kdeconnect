@@ -1,11 +1,11 @@
 #!/bin/bash
 
-trap "killall -q -e kdeconnectd; killall -q -e kdeconnect-indicator; exit" SIGINT EXIT
+trap "killall -q kdeconnectd; killall -q kdeconnect-indicator; exit" SIGINT EXIT ERR
 
 kdeconnect-indicator &
 
 while true; do
-    killall -q kdeconnectd
+    killall -q kdeconnectd ||
     /usr/lib/kdeconnectd &
     wait %2
 done

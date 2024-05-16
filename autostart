@@ -16,11 +16,11 @@ systemctl --user start xdg-desktop-portal-gtk &
 sleep 3
 
 echo "$HYPRLAND_INSTANCE_SIGNATURE" > "$HYPR_SIG_FILE"
-udiskie &
+#udiskie &
 start-wallpaper &
 blueman-tray &
 nm-applet --indicator &
-motrix &
+motrix --enable-features=UseOzonePlatform --ozone-platform=wayland &
 start-playerctl &
 start-kdeconnect &
 start-devicebattery &

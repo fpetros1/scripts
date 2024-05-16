@@ -15,5 +15,9 @@ if [[ -d "$1" ]]; then
     exit
 fi
 
-cd $(dirname "$1")
-"$EDITOR" "$1"
+REALPATH=$(realpath "$1")
+
+echo "$REALPATH"
+
+cd "$(dirname "$REALPATH")"
+"$EDITOR" "$REALPATH"

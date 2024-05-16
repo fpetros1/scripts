@@ -1,0 +1,4 @@
+#!/bin/bash
+
+$TERMINAL launch-editor "$1" &
+disown %1
