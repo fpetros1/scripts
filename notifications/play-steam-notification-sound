@@ -1,0 +1,12 @@
+#!/bin/bash
+
+LOCK_FILE="$XDG_RUNTIME_DIR/steam-notif-sound.lock"
+
+BASE_DIR=$(dirname $(readlink "$0" || echo "$0"))
+
+[[ ! -f "$LOCK_FILE" ]] &&\
+    trap "rm -f $LOCK_FILE; exit" SIGINT ERR EXIT &&\
+    touch "$LOCK_FILE" &&\
+    mpv --no-video --keep-open=no --end=00:02 --volume=50 "$BASE_DIR/assets/steam-sound.mp3"
+
+exit 0
