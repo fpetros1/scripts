@@ -20,6 +20,8 @@ echo -n "Continue? [Y/n]: " && read RESPONSE
 if [[ -z "$RESPONSE" ]] || [[ $(echo "$RESPONSE" | awk '{print toupper($0)}') == "Y" ]]; then 
     echo ""
     paru --noconfirm -Syu
+    write-updates-json-arch &
+    disown %1
     pause
     exit 0
 fi

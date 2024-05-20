@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export MANGOHUD_CONFIG="preset=0,1"
+
+"$@"

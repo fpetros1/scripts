@@ -8,10 +8,10 @@ SELECTED="$(command find $APPS_DIR | \
     grep "AppImage$" | \
     sed 's|\.AppImage||g'| \
     cut -d '_' -f1 | \
-    rofi -dmenu -i -p "Pick a AppImage:")"
+    wofi -dmenu -i -p "Pick a AppImage:")"
 
 if [[ -n $SELECTED ]]; then
-	ACTION=$(echo -e "Integrate\nUnintegrate" | rofi -dmenu -p "Choose an Action:")
+	ACTION=$(echo -e "Integrate\nUnintegrate" | wofi -dmenu -p "Choose an Action:")
 
 	APPIMAGE_REAL_PATH=$(find "$APPS_DIR" -wholename "*/$SELECTED*")
 

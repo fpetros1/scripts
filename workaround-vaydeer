@@ -1,0 +1,9 @@
+#!/bin/bash
+
+while read HIDRAW_ID; do
+    DEVICE=$(cat /sys/class/hidraw/${HIDRAW_ID}/device/uevent | grep HID_NAME | cut -d '=' -f2-)
+    [[ "$DEVICE" =~ ^Vaydeer ]] &&
+        cat /dev/${HIDRAW_ID} &> /dev/null &
+done <<< $(ls /dev | grep hidraw)
+
+wait

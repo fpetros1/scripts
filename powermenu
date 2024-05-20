@@ -1,13 +1,15 @@
 #!/bin/bash
 
 PROMPT="Action:"
-PIDS=$(pidof rofi)
+PIDS=$(pidof wofi)
 
 [[ ! -z $PIDS ]] && kill -9 $PIDS && exit
 
 entries="󰌾\tLock\n\tLogout\n⏾\tSuspend\n󰑓\tReboot\n⏻\tShutdown"
 
-selected=$(echo -e $entries | rofi -dmenu -no-show-icons -i -p "$PROMPT" | awk '{print tolower($2)}')
+selected=$(echo -e $entries | wofi -dmenu -no-show-icons -i -p "$PROMPT" | awk '{print tolower($2)}')
+
+echo $selected
 
 case $selected in
   lock)

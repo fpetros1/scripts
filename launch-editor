@@ -17,7 +17,5 @@ fi
 
 REALPATH=$(realpath "$1")
 
-echo "$REALPATH"
-
 cd "$(dirname "$REALPATH")"
 "$EDITOR" "$REALPATH"

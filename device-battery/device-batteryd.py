@@ -46,7 +46,8 @@ def lockfile_handler():
 
 def filter_with_model_and_statistics(device):
     return device[model_property] is not None and\
-            (device[has_statistiscs_property] is True or device[has_history_property] is True)
+        (device[has_statistiscs_property]
+         is True or device[has_history_property] is True)
 
 
 def filter_is_charging(device):
@@ -86,7 +87,7 @@ def parse_upower_information():
             if stripped_line.startswith(has_statistiscs_header):
                 devices[device_index][has_statistiscs_property] = \
                     parse_line_value(stripped_line) == 'yes'
-            
+
             if stripped_line.startswith(has_history_header):
                 devices[device_index][has_history_property] = \
                     parse_line_value(stripped_line) == 'yes'
@@ -128,7 +129,7 @@ def determine_battery_icon(average_battery, devices):
         return "󰂇" if charging else "󰁼"
 
     if average_battery > 30 and average_battery <= 40:
-        return "󰂈" if charging else "󰁽" 
+        return "󰂈" if charging else "󰁽"
 
     if average_battery > 40 and average_battery <= 50:
         return "󰢝" if charging else "󰁾"
@@ -164,7 +165,7 @@ def handle_client(client):
         }
         client.send(bytes(json.dumps(json_response), "utf-8"))
         return
-    
+
     devices = list(filter(filter_with_model_and_statistics, devices))
 
     for device in devices:

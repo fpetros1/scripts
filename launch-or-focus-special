@@ -6,7 +6,7 @@ BIN=""
 
 proc_bin_override() {
     case "$1" in
-#        steam) BIN="mangohud steam-native";;
+        steam) BIN="steam-native";;
         btwarden) BIN="bitwarden-desktop"; PROC="app.asar";;
         *) BIN="$1";;
     esac

@@ -31,8 +31,8 @@ if [[ ! -z "$1" ]] && [[ -f "$1" ]]; then
     exit
 fi
 
-PROMPT="Wallpaper:"
-PIDS=$(pidof rofi)
+PROMPT="Change wallpaper:"
+PIDS=$(pidof wofi)
 
 [[ ! -z $PIDS ]] && kill -9 $PIDS && exit
 
@@ -106,6 +106,6 @@ done
 IFS="$OLDIFS"
 
 WALLPAPER_OPTS=$(echo -e "$WALLPAPER_LIST" | grep -v "^$" | map basename)
-SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | rofi -application-fallback-icon "application-x-addon" -dmenu  -i -p "$PROMPT")
+SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | wofi -application-fallback-icon "application-x-addon" -dmenu  -i -p "$PROMPT")
 
 set_wallpaper "$SELECTED_FILE"

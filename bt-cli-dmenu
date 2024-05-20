@@ -1,11 +1,11 @@
 #!/bin/bash
 
 PROMPT="Master Password:"
-PIDS=$(pidof rofi)
+PIDS=$(pidof wofi)
 
 [[ ! -z $PIDS ]] && kill -9 $PIDS && exit
 
-export MASTER_PASSWORD=$(rofi -p "$PROMPT" -dmenu -password)
+export MASTER_PASSWORD=$(wofi -p "$PROMPT" -dmenu -password)
 export BW_SESSION=$(bw unlock --passwordenv "MASTER_PASSWORD" --raw)
 
 send_notification() {
@@ -22,7 +22,7 @@ trap "bw lock; exit" SIGINT EXIT ERR
 BT_ITEMS=$(bw list items | jq 'map({ id: .id, name: .name, pass: .login.password })')
 OPTS=$(echo "$BT_ITEMS" | jq -r '.[] | .name')
 
-SELECTED_NAME=$(echo "$OPTS" | rofi -dmenu -i -p "$PROMPT")
+SELECTED_NAME=$(echo "$OPTS" | wofi -dmenu -i -p "$PROMPT")
 SELECTED_PASS=$(echo "$BT_ITEMS" | jq -r --arg SN "$SELECTED_NAME" '.[] | select(.name == $SN) | .pass')
 
 if [[ ! -z "$SELECTED_PASS" ]]; then

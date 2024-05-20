@@ -7,10 +7,10 @@ SELECTED="$(command find $SCRIPTS_DIR | \
 	map basename | \
     grep -v "^\." | \
     cut -d'.' -f1 | \
-	rofi -dmenu -i -p "Pick a Script:")"
+	wofi -dmenu -i -p "Pick a Script:")"
 
 if [[ -n $SELECTED ]]; then
-	ACTION=$(echo -e "Run\nEdit\nMake Executable\nCreate Link" | rofi -dmenu -p "Choose an Action:")
+	ACTION=$(echo -e "Run\nEdit\nMake Executable\nCreate Link" | wofi -dmenu -p "Choose an Action:")
 
 	SCRIPT_REAL_PATH=$(find "$SCRIPTS_DIR" -wholename "*/$SELECTED*")
 
