@@ -1,0 +1,3 @@
+#!/bin/bash
+
+brave --ozone-platform=wayland --enable-features=VaapiVideoDecoder,VaapiVideoEncoder --gtk-version=4

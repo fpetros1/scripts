@@ -6,7 +6,7 @@ kdeconnect-indicator &
 
 while true; do
     killall -q kdeconnectd ||
-    /usr/lib/kdeconnectd &
+    kdeconnectd &
     wait %2
 done
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE_GPU_PATH="/sys/class/hwmon/hwmon4"
+BASE_GPU_PATH="/sys/class/hwmon/hwmon5"
 GPU_PCT=$(cat "$BASE_GPU_PATH/device/gpu_busy_percent")
 
 if [[ "$1" == "full" ]]; then

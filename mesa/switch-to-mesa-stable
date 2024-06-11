@@ -1,0 +1,5 @@
+#!/bin/bash
+
+BASE_DIR=$(dirname $(readlink "$0" || echo "$0"))
+
+cat "$BASE_DIR/mesa_packages.txt" | paru -S -

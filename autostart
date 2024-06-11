@@ -4,10 +4,15 @@ killall -e -q xdg-desktop-portal-gtk
 killall -e -q xdg-desktop-portal-hyprland
 killall -e -q xdg-desktop-portal
 
-# Slow app launch fix
-systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+ENV_VARS="WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GTK_THEME QT_QPA_PLATFORMTHEME XCURSOR_SIZE XCURSOR_THEME "\
+    "WLR_DRM_NO_ATOMIC XDG_SESSION_DESKTOP XDG_SESSION_TYPE HYPRCURSOR_THEME HYPRCURSOR_SIZE GTK_USE_PORTAL"
+
+# Gnome settings
 gsettings set org.gnome.desktop.interface cursor-theme 'material_light_cursors'
+
+# Slow app launch fix
+echo $ENV_VARS | xargs systemctl --user import-environment
+echo $ENV_VARS | xargs dbus-update-activation-environment --systemd
 
 systemctl --user start xdg-desktop-portal
 systemctl --user start xdg-desktop-portal-hyprland &
@@ -16,7 +21,7 @@ systemctl --user start xdg-desktop-portal-gtk &
 sleep 3
 
 echo "$HYPRLAND_INSTANCE_SIGNATURE" > "$HYPR_SIG_FILE"
-#udiskie &
+udiskie &
 start-wallpaper &
 blueman-tray &
 nm-applet --indicator &
@@ -30,5 +35,5 @@ xwayland-config &
 start-update-check &
 start-statusbar &
 start-notifications &
-start-idle &
+#start-idle &
 #hyprpm reload -n &

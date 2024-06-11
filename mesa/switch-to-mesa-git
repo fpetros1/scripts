@@ -1,0 +1,3 @@
+#!/bin/bash
+
+paru -S mesa-git lib32-mesa-git
