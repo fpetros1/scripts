@@ -1,0 +1,9 @@
+#!/bin/bash
+
+WITH_MOD_ENGINE=$(echo "$@" | sed "s/launchmod_eldenring.bat/modengine2_launcher.exe/")
+#WITH_MOD_ENGINE=$(echo "$WITH_MOD_ENGINE" | sed "s/waitforexitandrun\ /waitforexitandrun\ \"/")
+echo "$WITH_MOD_ENGINE" > "$HOME/test"
+
+bash $WITH_MOD_ENGINE
+
+

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-APP_ID_REGEX="AppId=([0-9]+)"
-[[ $(echo "$@") =~ $APP_ID_REGEX ]] &&\
-    export STEAM_APPID="${BASH_REMATCH[1]}"
-
 GENERAL_TWEAKS="general-tweaks"
 EOS_TWEAKS="eos-ovl-tweaks"
 GAMEMODE_COMMAND="gamemoderun"
@@ -14,3 +10,4 @@ exec\
     $EOS_TWEAKS\
     $GAMEMODE_COMMAND\
 	"$@"
+

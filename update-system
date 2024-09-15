@@ -2,8 +2,22 @@
 
 UPDATES=$(get-updates-arch color)
 
+[[ $(which flatpak 2>/dev/null) ]] &&\
+    FP_UPDATES=$(flatpak remote-ls --updates | head -n 1 | awk -F "\t" '{print "\033[1m"$1" -> \x1b[32m"$3"\x1b[0m\033[0m"}')
+
 COUNT_UPDATES=$(echo "$UPDATES" | cut -d '|' -f1)
 UPDATE_STRING=$(echo "$UPDATES" | cut -d '|' -f2-)
+
+[[ -z $FP_UPDATES ]] && FP_UPDATES_COUNT=0 || FP_UPDATES_COUNT=$(wc -l <<< $FP_UPDATES)
+
+COUNT_UPDATES=$(($COUNT_UPDATES+$FP_UPDATES_COUNT))
+
+UPDATE_STRING="$UPDATE_STRING"
+[[ ! -z $FP_UPDATES ]] && \
+    [[ ! -z $UPDATE_STRING ]] &&\
+    UPDATE_STRING="$UPDATE_STRING""\n\n\x1b[1;36mFlatpak:\x1b[0m \n"
+[[ ! -z $FP_UPDATES ]] && UPDATE_STRING="$UPDATE_STRING""$FP_UPDATES"
+
 
 if [[ $COUNT_UPDATES == 0 ]]; then
     echo -e "\x1b[31mNo updates available.\x1b[0m"
@@ -20,8 +34,13 @@ echo -n "Continue? [Y/n]: " && read RESPONSE
 if [[ -z "$RESPONSE" ]] || [[ $(echo "$RESPONSE" | awk '{print toupper($0)}') == "Y" ]]; then 
     echo ""
     paru --noconfirm -Syu
-    write-updates-json-arch &
-    disown %1
+    flatpak -y update
+
+    if [[ $(which write-updates-json-arch) ]]; then
+        write-updates-json-arch &
+        disown %1
+    fi
+
     pause
     exit 0
 fi

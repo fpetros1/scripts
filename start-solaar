@@ -1,0 +1,3 @@
+#!/bin/bash
+
+killall solaar 2>/dev/null; solaar --restart-on-wake-up -w hide

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ ! -z $STEAM_APPID ]]; then
+    SCRIPT_HOME="$(dirname $(realpath "$0"))"
+    STEAMAPPS_JSON="$SCRIPT_HOME/resources/steamapps.json"
+    
+    GAME_NAME=$(jq "[.applist.apps[] | select(.appid == $STEAM_APPID)][0]" $STEAMAPPS_JSON | jq -r '.name')
+
+    if [[ ! -z "$GAME_NAME" ]] && [[ ! "$GAME_NAME" == "null" ]]; then
+        COMPAT_BASE="$HOME/Game Compat"
+        OLD_STEAM_COMPAT="$STEAM_COMPAT_DATA_PATH"
+        rm -Rf "$OLD_STEAM_COMPAT" &>/dev/null
+        export STEAM_COMPAT_DATA_PATH="$COMPAT_BASE/$GAME_NAME"
+        mkdir -p "$STEAM_COMPAT_DATA_PATH"
+        ln -s "$STEAM_COMPAT_DATA_PATH" "$OLD_STEAM_COMPAT"
+    fi
+fi

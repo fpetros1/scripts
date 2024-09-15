@@ -1,11 +1,14 @@
 #!/bin/bash
 
+export MANGOHUD_CONFIGFILE="$HOME/.config/MangoHud/MangoHud.conf"
+export MANGOHUD=0
+export DISABLE_MANGOAPP=0
+
 GENERAL_TWEAKS="general-tweaks"
-CURSOR="$HOME/.icons/material_light_cursors/cursor.theme"
-GAMESCOPE_COMMAND="gamescope -f ${GAMESCOPE_HDR} -r 165 -w 3440 -h 1440"
+GAMESCOPE_COMMAND="gamescope ${GAMESCOPE_HDR} -r 165 -w 3440 -h 1440 --mangoapp"
 GAMEMODE_COMMAND="gamemoderun"
 
-export ENABLE_GAMESCOPE_WSI=1
+#export ENABLE_GAMESCOPE_WSI=1
 #export ENABLE_VKBASALT=1
 
 source $(which $GENERAL_TWEAKS)

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+[[ $(tmux ls | wc -l) -gt 0 ]] && tmux attach || tmux 
+
+

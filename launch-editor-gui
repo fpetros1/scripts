@@ -1,4 +1,10 @@
 #!/bin/bash
 
+[[ -z "$TERMINAL" ]] \
+    && export TERMINAL="kitty"
+
+[[ -z "$EDITOR" ]] \
+    && export EDITOR="nvim"
+
 $TERMINAL launch-editor "$1" &
 disown %1

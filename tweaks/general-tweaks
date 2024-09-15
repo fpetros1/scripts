@@ -1,5 +1,23 @@
 #!/bin/bash
 
+APP_ID_REGEX="waitforexitandrun\ (.+(\.exe|\.bat))"
+
+if [[ $(echo "$@") =~ $APP_ID_REGEX ]]; then
+    GAME_EXEC="${BASH_REMATCH[1]}"
+    GAME_FOLDER=$(dirname "$GAME_EXEC")
+    if [[ -f "$GAME_FOLDER/steam_appid.txt" ]]; then
+        export STEAM_APPID=$(cat "$GAME_FOLDER/steam_appid.txt")
+    fi
+fi
+
+if [[ -z "$STEAM_APPID" ]]; then
+    APP_ID_REGEX="AppId=([0-9]+)"
+    [[ $(echo "$@") =~ $APP_ID_REGEX ]] &&\
+        export STEAM_APPID="${BASH_REMATCH[1]}"
+fi
+
+source $(which set-steam-compat)
+
 export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
 #export MANGOHUD_CONFIGFILE="$hypr/config/MangoHud/MangoHud.conf"
 export PROTON_USE_WINESYNC=1

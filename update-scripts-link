@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+[[ -z $hypr ]] && hypr="$HOME/.config/hypr"
+
 INITIAL_SCRIPTS_DIR="$hypr/scripts"
 TARGET_DIR="/usr/bin"
 
@@ -25,9 +28,9 @@ create_link() {
 	SCRIPT_NAME_NO_EXT=$(echo $SCRIPT_NAME | cut -d'.' -f1)
 	LINK_TARGET="$TARGET_DIR/$SCRIPT_NAME_NO_EXT"
 	echo "Removing current link: $LINK_TARGET"
-    doas rm "$LINK_TARGET" 2> /dev/null
+    sudo rm "$LINK_TARGET" 2> /dev/null
 	echo "Creating new link for: $script"
-    doas ln -s "$script" "$LINK_TARGET"
+    sudo ln -s "$script" "$LINK_TARGET"
 }
 
 create_links_for_folder "$INITIAL_SCRIPTS_DIR"

@@ -2,7 +2,7 @@
 
 if [[ ! -z "$STEAM_APPID" ]] && [[ "$PROTON_USE_EOS" -eq 1 ]]; then
     COMPAT_DATA_FOLDER=$(find $HOME \
-        -path "$HOME/.local" -prune -o \
+        -path "$HOME/.local/share/waydroid" -prune -o \
         -path "$HOME/.config" -prune -o \
         -path "$HOME/.cache" -prune -o \
         -iwholename "*steamapps/compatdata/$STEAM_APPID" -print)

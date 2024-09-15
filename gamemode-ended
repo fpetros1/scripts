@@ -1,9 +1,8 @@
 #!/bin/bash
 
-source $(which set-hyprland-socket)
+pkill -9 wineboot.exe
 
-#STEAM_WS=$(hyprctl clients -j | jq '[.[] | select(.class == "steam")][0]' | jq '.workspace.id')
-#hyprctl dispatch workspace $STEAM_WS
-
-hyprctl --batch "dispatch workspace 1 ; dispatch togglespecialworkspace steam"
+[[ "$XDG_CURRENT_DESKTOP" == "Hyprland" ]] \
+    && source $(which set-hyprland-socket) \
+    && hyprctl --batch "dispatch workspace 1 ; dispatch togglespecialworkspace steam"
 
