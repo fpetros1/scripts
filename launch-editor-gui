@@ -6,5 +6,4 @@
 [[ -z "$EDITOR" ]] \
     && export EDITOR="nvim"
 
-$TERMINAL launch-editor "$1" &
-disown %1
+$TERMINAL launch-editor "$1"

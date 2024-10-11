@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SCRIPT_HOME="$(dirname $(realpath "$0"))"
+
+cat "$SCRIPT_HOME/resources/cosmic-packages" | paru -Sy - --needed
