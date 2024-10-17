@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 dbus-monitor "type='signal',sender='org.freedesktop.DBus',member='NameAcquired'" |
 while read -r line; do

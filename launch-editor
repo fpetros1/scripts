@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [[ -z "$1" ]]; then
     "$EDITOR" .
@@ -15,7 +15,7 @@ if [[ -d "$1" ]]; then
     exit
 fi
 
-REALPATH=$(realpath "$1")
+REALPATH=$(readlink -f "$1")
 
 cd "$(dirname "$REALPATH")"
 "$EDITOR" "$REALPATH"

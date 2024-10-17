@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DISCORD_WEBFOX_APP_NAME="Discord WebFox"
 

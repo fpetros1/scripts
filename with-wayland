@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export PROTON_ENABLE_WAYLAND=1
 

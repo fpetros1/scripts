@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [[ $(pidof wofi) ]] &&\
     killall wofi && exit 1

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 PWA_SITE=$(get-firefoxpwa-id "$1" | cut -d '-' -f2-)
 TARGET=".local/share/firefoxpwa/profiles/$(jq -r --arg PWA_SITE "$PWA_SITE" '.profiles | to_entries[] | select(.value.sites[0] == $PWA_SITE) | .key' "$HOME/.local/share/firefoxpwa/config.json")"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 BASE_GPU_PATH="/sys/class/hwmon/hwmon5"
 GPU_PCT=$(cat "$BASE_GPU_PATH/device/gpu_busy_percent")

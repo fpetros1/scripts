@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 APP_ID_REGEX="waitforexitandrun\ (.+(\.exe|\.bat))"
 

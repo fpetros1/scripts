@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 lsmod | grep -wq "$1" &&\
    echo "$1 is loaded!" || echo "$1 is not loaded!"

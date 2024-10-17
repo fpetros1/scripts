@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export MANGOHUD_CONFIG="preset=0,1"
 

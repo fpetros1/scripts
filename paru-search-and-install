@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SEARCH=$([[ -z "$@" ]] && wofi -p "Search paru:" -dmenu || echo "$@")
 SELECTED=$(paru -Ss "$SEARCH" | grep "^.*/.* \[" | wofi -dmenu -i -p "PKG:" | awk '{print $1;}')

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #GAMEMODE ONLY HAS $HOME
 USER=$(echo "$HOME" | map basename)

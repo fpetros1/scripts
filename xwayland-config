@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Wait for XWayland to Start
 XWAYLAND_PID=$(pidof Xwayland)
@@ -12,10 +12,7 @@ done
 # Allow xhost for all local users
 xhost + local:
 
-#MAIN_MONITOR_RESOLUTION=$(hyprctl monitors -j | jq -r 'min_by(.id) | (.width|tostring) + "x" + (.height|tostring)')
-
-[[ $(inxi -G) =~ 1:\ ([0-9]{4}x[0-9]{4}) ]] && \
-    MAIN_MONITOR_RESOLUTION="${BASH_REMATCH[1]}" || MAIN_MONITOR_RESOLUTION="1920x1080"
+MAIN_MONITOR_RESOLUTION="$(xrandr | grep 'DP-1' | awk '{ print $3 }' | cut -d'+' -f1)" || MAIN_MONITOR_RESOLUTION="1920x1080"
 
 # Set XWayland Primary Monitor
 xrandr --output "$(xrandr | awk '/'"$MAIN_MONITOR_RESOLUTION"'/ {print $1}' | head -n 1)" --primary

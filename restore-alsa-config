@@ -1,2 +1,2 @@
-#!/bin/bash
+#!/usr/bin/env bash
 alsactl --file $HOME/.config/asound.state restore

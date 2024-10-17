@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 LOCK_FILE="$XDG_RUNTIME_DIR/steam-notif-sound.lock"
 

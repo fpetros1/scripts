@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [[ $(which hyprctl) && "$XDG_CURRENT_DESKTOP" == "Hyprland" ]] then
     source $(which set-hyprland-socket)
