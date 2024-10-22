@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+REPO="https://api.github.com/repos/google/google-java-format/releases/latest"
+JSON=$(curl -s $REPO)
+
+VERSION=$(echo "$JSON" | jq -r '.name')
+
+[[ -z "$XDG_DATA_HOME" ]] &&\
+    NVIM_DATA_BASE="$HOME/.local/share/nvim" || NVIM_DATA_BASE="$XDG_DATA_HOME/nvim"
+
+TARGET_FOLDER="$NVIM_DATA_BASE/google-java-format"
+TARGET_FILE="$TARGET_FOLDER/google-java-format.jar"
+VERSION_FILE="$TARGET_FOLDER/version.txt"
+
+mkdir -p "$TARGET_FOLDER"
+
+if [[ -f "$VERSION_FILE" ]]; then
+    CURRENT_VERSION=$(cat "$VERSION_FILE")
+fi
+
+if [[ ! "$VERSION" == "$CURRENT_VERSION" ]]; then
+    URL=$(echo "$JSON" | jq -r '.assets[] | select(.name | contains("all-deps.jar")) | .browser_download_url')
+    echo "$URL"
+    curl -L "$URL" -o "$TARGET_FILE"
+    echo "$VERSION" > "$VERSION_FILE"
+fi
+
