@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-[[ $(tmux ls | wc -l) -gt 0 ]] && tmux attach || tmux
+[ $(tmux ls | wc -l) -gt 0 ] && tmux attach || tmux
 
 

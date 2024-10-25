@@ -1,15 +1,15 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 PROMPT="Action:"
-PIDS=$(pidof wofi)
+PIDS="$(pidof wofi)"
 
-[[ ! -z $PIDS ]] && kill -9 $PIDS && exit
-
+if [ -n "$PIDS" ]; then
+    kill -9 "$(pidof wofi)"
+    exit
+fi 
 entries="󰌾\tLock\n\tLogout\n⏾\tSuspend\n󰑓\tReboot\n⏻\tShutdown"
 
-selected=$(echo -e $entries | wofi -dmenu -no-show-icons -i -p "$PROMPT" | awk '{print tolower($2)}')
-
-echo $selected
+selected=$(echo $entries | wofi --show dmenu -no-show-icons -i -p "$PROMPT" | awk '{print tolower($2)}')
 
 case $selected in
   lock)

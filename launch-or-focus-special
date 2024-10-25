@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 WS="$1"
 PROC="$1"
@@ -14,7 +14,7 @@ proc_bin_override() {
 
 proc_bin_override "$WS"
 
-if [[ -z $(pidof "$PROC") ]]; then
+if [ -z $(pidof "$PROC") ]; then
     $BIN &
     exit
 fi

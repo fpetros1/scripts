@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 APPS_DIR="$HOME/Applications"
 
@@ -8,10 +8,10 @@ SELECTED="$(command find $APPS_DIR | \
     grep "AppImage$" | \
     sed 's|\.AppImage||g'| \
     cut -d '_' -f1 | \
-    wofi -dmenu -i -p "Pick a AppImage:")"
+    wofi --show dmenu -i -p "Pick a AppImage:")"
 
-if [[ -n $SELECTED ]]; then
-	ACTION=$(echo -e "Integrate\nUnintegrate" | wofi -dmenu -p "Choose an Action:")
+if [ -n $SELECTED ]; then
+	ACTION=$(echo "Integrate\nUnintegrate" | wofi --show dmenu -p "Choose an Action:")
 
 	APPIMAGE_REAL_PATH=$(find "$APPS_DIR" -wholename "*/$SELECTED*")
 

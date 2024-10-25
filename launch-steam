@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-[[ $(which xwayland-config) ]] && xwayland-config
+[ $(which xwayland-config) ] && xwayland-config
 
-BIN=$([[ $(which steam-native) ]] && echo "steam-native" || echo "steam-runtime")
+BIN=$([ $(which steam-native) ] && echo "steam-native" || echo "steam-runtime")
 EXTRA_ARGS=$(echo "$@" | tr ' ' '\n')
 
 echo "$EXTRA_ARGS" | xargs "$BIN"

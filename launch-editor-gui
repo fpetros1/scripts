@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-[[ -z "$TERMINAL" ]] \
+[ -z "$TERMINAL" ] \
     && export TERMINAL="kitty"
 
-[[ -z "$EDITOR" ]] \
+[ -z "$EDITOR" ] \
     && export EDITOR="nvim"
 
 $TERMINAL launch-editor "$1"

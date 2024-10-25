@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 NUM=1
 
 while read arg
 do
     echo "$NUM - $arg"
-    NUM=$(bc <<< "$NUM + 1")
+    NUM=$(echo "$NUM + 1" | bc)
 done < /dev/stdin
 

@@ -1,16 +1,16 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-SCRIPTS_DIR="$hypr/scripts"
+SCRIPTS_DIR=$([ -z "$hypr"] && echo "$HOME/.config/hypr/scripts" || echo "$hypr/scripts")
 
 SELECTED="$(command find $SCRIPTS_DIR | \
 	prune-dirs | \
 	map basename | \
     grep -v "^\." | \
     cut -d'.' -f1 | \
-	wofi -dmenu -i -p "Pick a Script:")"
+	wofi --show dmenu -i -p "Pick a Script:")"
 
-if [[ -n $SELECTED ]]; then
-	ACTION=$(echo -e "Run\nEdit\nMake Executable\nCreate Link" | wofi -dmenu -p "Choose an Action:")
+if [ -n $SELECTED ]; then
+	ACTION=$(echo "Run\nEdit\nMake Executable\nCreate Link" | wofi --show dmenu -p "Choose an Action:")
 
 	SCRIPT_REAL_PATH=$(find "$SCRIPTS_DIR" -wholename "*/$SELECTED*")
 

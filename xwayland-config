@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 # Wait for XWayland to Start
 XWAYLAND_PID=$(pidof Xwayland)
 
-while [[ -z "$XWAYLAND_PID" ]]; do
+while [ -z "$XWAYLAND_PID" ]; do
 	echo "XWayland not found, sleeping for 5 seconds"
 	sleep 5
 	XWAYLAND_PID=$(pidof Xwayland)

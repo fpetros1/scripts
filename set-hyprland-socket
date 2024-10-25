@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 #GAMEMODE ONLY HAS $HOME
 USER=$(echo "$HOME" | map basename)
 
-export HYPRLAND_INSTANCE_SIGNATURE=$(cat "$XDG_RUNTIME_DIR/hypr.$USER.sig")
+#export HYPRLAND_INSTANCE_SIGNATURE=$(cat "$XDG_RUNTIME_DIR/hypr.$USER.sig")
 
-echo "$HYPRLAND_INSTANCE_SIGNATURE"
+#echo "$HYPRLAND_INSTANCE_SIGNATURE"
 

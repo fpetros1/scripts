@@ -1,6 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-source $(which set-hyprland-socket)
+#source $(which set-hyprland-socket)
+
+hypr=$([ -n "$hypr" ] && echo "$hypr" || echo "$HOME/.config/hypr")
 
 set_wallpaper() {
     if [ ! -z "$1" ]; then    
@@ -21,10 +23,10 @@ set_wallpaper() {
     fi
 }
 
-if [[ ! -z "$1" ]] && [[ -f "$1" ]]; then
+if [ -n "$1" ] && [ -f "$1" ]; then
     MIME_TYPE=$(file -Lb --mime-type "$1")
 
-    if [[ "$MIME_TYPE" =~ ^image\/ ]]; then
+    if [ "$(echo "$MIME_TYPE" | grep -E "^image\/")" ]; then
         WALLPAPER_LIST="$1"
         set_wallpaper "$1"
     fi
@@ -34,28 +36,30 @@ fi
 PROMPT="Change wallpaper:"
 PIDS=$(pidof wofi)
 
-[[ ! -z $PIDS ]] && kill -9 $PIDS && exit
+[ -n "$PIDS" ] && kill -9 $PIDS && exit
 
 add_wallpaper_from_folder() {
-    SAVEIFS="$IFS"
-    IFS=$(echo -en "\n\b")
     FILES=$(ls "$1")
-    for f in ${FILES[@]}; do
+    local OLDIFS="$IFS"
+    unset IFS
+    for f in $FILES
+    do
         [ -d "$1/$f" ] && add_wallpaper_from_folder "$1/$f" || add_wallpaper "$1/$f"
     done
-    IFS="$SAVEIFS"
+    IFS="$OLDIFS"
 }
+
+WALLPAPER_FOLDERS=""
+WALLPAPER_LIST=""
 
 add_wallpaper() {
     if [ -f "$1" ]; then
         MIME_TYPE=$(file -Lb --mime-type "$1")
-        if [[ $MIME_TYPE =~ ^image\/ ]]; then
-            WALLPAPER_LIST=$([ -z "$WALLPAPERS" ] && echo $1 || echo "$WALLPAPER_LIST\n$1")
+        if [ "$(echo "$MIME_TYPE" | grep -E "^image/")" ]; then
+            WALLPAPER_LIST=$([ -z "$WALLPAPER_LIST" ] && echo "$1" || echo "$WALLPAPER_LIST\n$1")
         fi
     fi
 }
-
-WALLPAPER_FOLDERS=""
 
 add_wallpaper_folder() {
     WALLPAPER_FOLDERS=$([ -z "$WALLPAPER_FOLDERS" ] && echo "$1" || echo "$WALLPAPER_FOLDERS:$1")
@@ -84,11 +88,11 @@ while read extraInFile; do
     trimmed=$(echo "$extraInFile" | xargs -0)
     firstChar=$(echo "$trimmed" | cut -c1)
 
-    if [ "$firstChar" == "#" ]; then
+    if [ "$firstChar" = "#" ]; then
         continue
     fi
 
-    if [ "$firstChar" == "!" ]; then
+    if [ "$firstChar" = "!" ]; then
         remove_wallpaper_folder "$extraInFile"
         continue
     fi
@@ -96,16 +100,15 @@ while read extraInFile; do
     add_wallpaper_folder "$extraInFile"
 done < "$hypr/wallpaper_folders.config.txt"
 
-WALLPAPER_LIST=""
 
 OLDIFS="$IFS"
-IFS=":" read -ra WALLPAPERS <<< "$WALLPAPER_FOLDERS"
-for wallpaper in "${WALLPAPERS[@]}"; do
+IFS=":"
+for wallpaper in $WALLPAPER_FOLDERS; do
     add_wallpaper_from_folder "$wallpaper"
 done
 IFS="$OLDIFS"
 
-WALLPAPER_OPTS=$(echo -e "$WALLPAPER_LIST" | grep -v "^$" | map basename)
-SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | wofi -application-fallback-icon "application-x-addon" -dmenu  -i -p "$PROMPT")
+WALLPAPER_OPTS=$(echo "$WALLPAPER_LIST" | grep -v "^$" | map basename)
+SELECTED_FILE=$(echo "$WALLPAPER_OPTS" | wofi -application-fallback-icon "application-x-addon" --show dmenu  -i -p "$PROMPT")
 
 set_wallpaper "$SELECTED_FILE"

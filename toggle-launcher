@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 PIDS=$(pidof wofi)
 OPEN_LAUNCHER="wofi --show drun"
 
-[[ ! -z $PIDS ]] && kill -9 $PIDS || $OPEN_LAUNCHER
+! [ -z "$PIDS" ] && kill -9 $PIDS || $OPEN_LAUNCHER
 

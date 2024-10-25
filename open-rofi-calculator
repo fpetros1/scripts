@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 PIDS=$(pidof wofi)
 
-[[ ! -z $PIDS ]] && kill -9 $PIDS && exit
+[ -n "$PIDS" ] && kill -9 $PIDS && exit
 
 wofi -show calc -modi calc -no-show-match -no-sort

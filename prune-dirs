@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 while read arg
 do
-	if [[ ! -d "$arg" ]]; then
+	if ! [ -d "$arg" ]; then
 		echo "$arg"
 	fi
 	

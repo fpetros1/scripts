@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 if ! [ -f "$1" ]; then
 	exit 1
@@ -12,8 +12,8 @@ mkdir -p "$cache"
 
 if [ -f "$index" ]; then
 	thumbnail="$(jq -r ". \"$movie\"" <"$index")"
-	if [[ "$thumbnail" != "null" ]]; then
-		if [[ ! -f "$cache/$thumbnail" ]]; then
+	if ! [ "$thumbnail" = "null" ]; then
+		if ! [ -f "$cache/$thumbnail" ]; then
 			exit 1
 		fi
 		echo "$cache/$thumbnail"
@@ -27,7 +27,7 @@ if ! ffmpegthumbnailer -i "$movie" -o "$cache/$thumbnail" -s 0 2>/dev/null; then
 	exit 1
 fi
 
-if [[ ! -f "$index" ]]; then
+if [ -n "$index" ]; then
 	echo "{\"$movie\": \"$thumbnail\"}" >"$index"
 fi
 json="$(jq -r --arg "$movie" "$thumbnail" ". + {\"$movie\": \"$thumbnail\"}" <"$index")"

@@ -1,13 +1,13 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-if [[ $(which hyprctl) && "$XDG_CURRENT_DESKTOP" == "Hyprland" ]] then
+if [ $(which hyprctl) ] && [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
     source $(which set-hyprland-socket)
 
     BASE_CMD=""
     CURRENT_WINDOW=$(hyprctl activewindow -j | jq -r '.class')
     #STEAM_CHAT_CLASS=$(get-firefoxpwa-id "Steam Chat")
 
-    if [[ $CURRENT_WINDOW == "steam" ]]; then
+    if [ $CURRENT_WINDOW = "steam" ]; then
         BASE_CMD="dispatch togglespecialworkspace steam ; "
     fi
 

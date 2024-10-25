@@ -1,2 +1,2 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 alsactl --file $HOME/.config/asound.state store

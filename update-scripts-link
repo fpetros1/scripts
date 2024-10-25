@@ -1,7 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-
-[[ -z $hypr ]] && hypr="$HOME/.config/hypr"
+[ -z "$hypr" ] && hypr="$HOME/.config/hypr"
 
 INITIAL_SCRIPTS_DIR="$hypr/scripts"
 TARGET_DIR="/usr/bin"
@@ -10,13 +9,12 @@ create_links_for_folder() {
 	local SCRIPTS_DIR="$1"
 	local SCRIPTS=$(find $SCRIPTS_DIR -maxdepth 1 | tail -n +2 | xargs)
 	
-	IFS=" " read -ra SCRIPT <<< "$SCRIPTS"
-	for script in "${SCRIPT[@]}"; do
-		if [[ -d "$script" ]]; then	
+	for script in $SCRIPTS; do
+		if [ -d "$script" ]; then	
 			create_links_for_folder "$script"
 			continue
 		fi
-		if [[ -x "$script" ]]; then
+		if [ -x "$script" ]; then
 			create_link "$script"
 		fi
 	done

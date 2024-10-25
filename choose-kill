@@ -1,23 +1,26 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 PROMPT="Kill:"
 PIDS=$(pidof wofi)
 
-[[ ! -z $PIDS ]] && kill -9 $PIDS && exit
+[ -n "$PIDS" ] && kill -9 $PIDS && exit
 
-PROCS=$(ps -o pid,cmd -u "$USER" | tail -n +2)
 ENTRIES=""
+
+TEMP=$(mktemp)
+trap "rm -f $TEMP" INT EXIT
+ps -o pid,cmd -u "$USER" | tail -n +2 > "$TEMP"
 
 while read proc; do
     PS_PID=$(echo "$proc" | cut -d ' ' -f1) 
     PS_CMD=$(echo "$proc" | cut -d ' ' -f2-) 
 
     ENTRIES="$ENTRIES$PS_PID | $(echo "$PS_CMD" | awk '{print substr($0,0,20)" ... "substr($0,length($0)-29,30)}')\n"
-done <<< "$PROCS"
+done < "$TEMP"
 
-TARGET=$(echo -e "$ENTRIES" | wofi -dmenu -i -p "$PROMPT")
+TARGET=$(echo "$ENTRIES" | wofi --show dmenu -i -p "$PROMPT")
 
-if [ ! -z "$TARGET" ]; then
+if [ -n "$TARGET" ]; then
     kill -9 $(echo "$TARGET" | cut -d ' ' -f1)
 fi
 

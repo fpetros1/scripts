@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-[[ $(pidof wofi) ]] &&\
+[ $(pidof wofi) ] &&\
     killall wofi && exit 1
 
 PPWIRE_TYPE="PipeWire:Interface:Node"
@@ -13,7 +13,7 @@ SINKS=$(pw-dump | jq -r \
     --arg PROP_NODE_DESC "node.description"\
     '[.[] | select(.type == $PPWIRE_TYPE and .info.props[$PROP_MC_NAME] == $SINK_MEDIA_CLASS)] | map({"id": .id, "description": .info.props[$PROP_NODE_DESC]})')
 
-SELECTED=$(echo "$SINKS" | jq -r '.[] | .description' | wofi -dmenu -p "Change default audio device:")
+SELECTED=$(echo "$SINKS" | jq -r '.[] | .description' | wofi --show dmenu -p "Change default audio device:")
 
-[[ ! -z "$SELECTED" ]] &&\
+[ -n "$SELECTED" ] &&\
     wpctl set-default $(echo "$SINKS" | jq --arg DESC "$SELECTED" -r '.[] | select(.description == $DESC) | .id')

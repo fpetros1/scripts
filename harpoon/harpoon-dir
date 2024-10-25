@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-BASE_FOLDER=$([[ -z "$XDG_DATA_HOME" ]] && echo "$XDG_DATA_HOME/harpoon" \
+BASE_FOLDER=$([ -z "$XDG_DATA_HOME" ] && echo "$XDG_DATA_HOME/harpoon" \
     || echo "$HOME/.local/share/harpoon")
 
-if [[ ! -d "$BASE_FOLDER" ]]; then
+if ! [ -d "$BASE_FOLDER" ]; then
     mkdir -p "$BASE_FOLDER"
 fi
 
@@ -13,7 +13,7 @@ reset() {
     jq --null-input '{"current": 0, "harpoons": []}' > "$HARPOON_FILE"
 }
 
-if [[ ! -f "$HARPOON_FILE" ]]; then
+if ! [ -f "$HARPOON_FILE" ]; then
     reset
 fi
 
@@ -26,13 +26,13 @@ get_current_harpoon_index() {
 
 exists() {
     HARPOON=$(echo "$HARPOON_CONTENT" | jq -r --arg ELEM "$1" '.harpoons[] | select(. == $ELEM)')
-    [[ -z "$HARPOON" ]] && echo false || echo true
+    [ -z "$HARPOON" ] && echo "false" || echo "true"
 }
 
 get_current_harpoon() {
     LENGTH=$(echo "$HARPOON_CONTENT" | jq -r '.harpoons | length')
 
-    if [[ "$LENGTH" == "0" ]]; then
+    if [ "$LENGTH" = "0" ]; then
         exit 1
     fi
 
@@ -41,11 +41,11 @@ get_current_harpoon() {
 }
 
 add_harpoon() {
-    if [[ ! -d "$1" ]]; then
+    if ! [ -d "$1" ]; then
        exit 1 
     fi
 
-    if [[ $(exists "$1") == true ]]; then
+    if [ $(exists "$1") = "true" ]; then
        echo "Harpoon already added!"
        exit 0
     fi
@@ -60,7 +60,7 @@ add_harpoon() {
 remove_harpoon() {
     NEW_CURRENT=$(bc <<< "$(get_current_harpoon_index) - 1")
 
-    if [[ "$NEW_CURRENT" -lt 0 ]]; then
+    if [ "$NEW_CURRENT" -lt 0 ]; then
        NEW_CURRENT=0 
     fi
     
@@ -76,13 +76,13 @@ get_length() {
 next_harpoon() {
     LENGTH=$(get_length)
 
-    if [[ -z "$LENGTH" ]] || [[ "$LENGTH" == 0 ]]; then
+    if [ -z "$LENGTH" ] || [ "$LENGTH" -eq 0 ]; then
         exit 0
     fi
     
-    NEXT=$(bc <<< "$(echo "$HARPOON_CONTENT" | jq -r '.current') + 1")
+    NEXT=$(echo "$(echo "$HARPOON_CONTENT" | jq -r '.current') + 1" | bc)
 
-    if [[ "$NEXT" -gt $(bc <<< "$LENGTH - 1") ]]; then
+    if [ "$NEXT" -gt $(echo "$LENGTH - 1" | bc) ]; then
         NEXT=0
     fi
 
@@ -95,14 +95,14 @@ next_harpoon() {
 previous_harpoon() {
     LENGTH=$(get_length)
     
-    if [[ -z "$LENGTH" ]] || [[ "$LENGTH" == 0 ]]; then
+    if [ -z "$LENGTH" ] || [ "$LENGTH" == 0 ]; then
         exit 0
     fi
     
-    NEXT=$(bc <<< "$(echo "$HARPOON_CONTENT" | jq -r '.current') - 1")
+    NEXT=$(echo "$(echo "$HARPOON_CONTENT" | jq -r '.current') - 1" | bc)
 
-    if [[ "$NEXT" -lt 0 ]]; then
-        NEXT=$(bc <<< "$LENGTH - 1")
+    if [ "$NEXT" -lt 0 ]; then
+        NEXT=$(echo "$LENGTH - 1" | bc)
     fi
 
     HARPOON_CONTENT=$(echo "$HARPOON_CONTENT" | jq --argjson NEXT $NEXT '. | {"current": $NEXT,"harpoons": .harpoons}')

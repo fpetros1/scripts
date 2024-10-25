@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 killall -e -q xdg-desktop-portal-gtk
 killall -e -q xdg-desktop-portal-hyprland
@@ -11,8 +11,9 @@ ENV_VARS="WAYLAND_DISPLAY XDG_CURRENT_DESKTOP GTK_THEME QT_QPA_PLATFORMTHEME XCU
 gsettings set org.gnome.desktop.interface cursor-theme 'material_light_cursors'
 
 # Slow app launch fix
+#export $(dbus-launch)
+dbus-update-activation-environment --systemd --all
 echo $ENV_VARS | xargs systemctl --user import-environment
-echo $ENV_VARS | xargs dbus-update-activation-environment --systemd
 
 systemctl --user start xdg-desktop-portal
 systemctl --user start xdg-desktop-portal-hyprland &
@@ -21,19 +22,19 @@ systemctl --user start xdg-desktop-portal-gtk &
 sleep 3
 
 echo "$HYPRLAND_INSTANCE_SIGNATURE" > "$HYPR_SIG_FILE"
-udiskie &
+# udiskie &
 start-wallpaper &
-blueman-tray &
-nm-applet --indicator &
-motrix --enable-features=UseOzonePlatform --ozone-platform=wayland &
-start-playerctl &
-start-kdeconnect &
-start-devicebattery &
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-protonmail-bridge --no-window &
-xwayland-config &
-start-update-check &
+# blueman-tray &
+# nm-applet --indicator &
+# motrix --enable-features=UseOzonePlatform --ozone-platform=wayland &
+# start-playerctl &
+# start-kdeconnect &
+# start-devicebattery &
+# /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+# protonmail-bridge --no-window &
+# xwayland-config &
+# start-update-check &
 start-statusbar &
-start-notifications &
+# start-notifications &
 #start-idle &
 #hyprpm reload -n &

@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-SEARCH=$([[ -z "$@" ]] && wofi -p "Search paru:" -dmenu || echo "$@")
-SELECTED=$(paru -Ss "$SEARCH" | grep "^.*/.* \[" | wofi -dmenu -i -p "PKG:" | awk '{print $1;}')
+SEARCH=$([ -z "$@" ] && wofi -p "Search paru:" --show dmenu || echo "$@")
+SELECTED=$(paru -Ss "$SEARCH" | grep "^.*/.* \[" | wofi --show dmenu -i -p "PKG:" | awk '{print $1;}')
 
-if [[ ! -z $SELECTED ]]; then 
+if [ -n $SELECTED ]; then 
     $TERMINAL --class update-system paru -S $SELECTED; pause
 fi
 

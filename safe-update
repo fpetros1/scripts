@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 doas timeshift --create --comments "$*"
 paru -Syu

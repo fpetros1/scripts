@@ -1,50 +1,49 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 UPDATES=$(get-updates-arch color)
 
-[[ $(which flatpak 2>/dev/null) ]] &&\
+[ $(which flatpak 2>/dev/null) ] &&\
     FP_UPDATES=$(flatpak remote-ls --updates | head -n 1 | awk -F "\t" '{print "\033[1m"$1" -> \x1b[32m"$3"\x1b[0m\033[0m"}')
 
-COUNT_UPDATES=$(echo "$UPDATES" | cut -d '|' -f1)
+COUNT_UPDATES=$(printf -- $UPDATES | cut -d '|' -f1)
 UPDATE_STRING=$(echo "$UPDATES" | cut -d '|' -f2-)
 
-[[ -z $FP_UPDATES ]] && FP_UPDATES_COUNT=0 || FP_UPDATES_COUNT=$(wc -l <<< $FP_UPDATES)
+[ -z $FP_UPDATES ] && FP_UPDATES_COUNT=0 || FP_UPDATES_COUNT=$(echo $FP_UPDATES | wc -l)
 
-COUNT_UPDATES=$(($COUNT_UPDATES+$FP_UPDATES_COUNT))
+COUNT_UPDATES=$(echo "$COUNT_UPDATES+$FP_UPDATES_COUNT" | bc)
 
 UPDATE_STRING="$UPDATE_STRING"
-[[ ! -z $FP_UPDATES ]] && \
-    [[ ! -z $UPDATE_STRING ]] &&\
-    UPDATE_STRING="$UPDATE_STRING""\n\n\x1b[1;36mFlatpak:\x1b[0m \n"
-[[ ! -z $FP_UPDATES ]] && UPDATE_STRING="$UPDATE_STRING""$FP_UPDATES"
+[ -n "$FP_UPDATES" ] && \
+    [ -n "$UPDATE_STRING" ] &&\
+    UPDATE_STRING="$UPDATE_STRING""\n\n\033[34;36mFlatpak:\033[34;0m \n"
+[ -n $FP_UPDATES ] && UPDATE_STRING="$UPDATE_STRING""$FP_UPDATES"
 
 
-if [[ $COUNT_UPDATES == 0 ]]; then
-    echo -e "\x1b[31mNo updates available.\x1b[0m"
+if [ $COUNT_UPDATES -eq 0 ]; then
+    echo "\n\033[34;31mNo updates available.\033[34;0m"
     pause
     exit 1
 fi
 
-echo -e "\x1b[1;36mPackages:\x1b[0m \n$(echo "$UPDATE_STRING")\n"
-echo -e "\x1b[1;36mTotal updates: \x1b[32m$(echo "$COUNT_UPDATES")\x1b[0m"
+echo "\033[34;36mPackages:\033[34 \n\n$(echo "$UPDATE_STRING")\n"
+echo "\033[34;36mTotal updates: \033[34;32m$(echo "$COUNT_UPDATES")\033[34;0m"
 
 echo ""
 echo -n "Continue? [Y/n]: " && read RESPONSE
 
-if [[ -z "$RESPONSE" ]] || [[ $(echo "$RESPONSE" | awk '{print toupper($0)}') == "Y" ]]; then 
+if [ -z "$RESPONSE" ] || [ $(echo "$RESPONSE" | awk '{print toupper($0)}') = "Y" ]; then 
     echo ""
     paru --noconfirm -Syu
     flatpak -y update
 
-    if [[ $(which write-updates-json-arch) ]]; then
+    if [ $(which write-updates-json-arch) ]; then
         write-updates-json-arch &
-        disown %1
     fi
 
     pause
     exit 0
 fi
 
-echo -e "\n\x1b[31mUpdate canceled.\x1b[0m"
+echo "\n\033[34;31mUpdate canceled.\033[34;0m"
 pause
 exit 2

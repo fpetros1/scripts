@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 pkill -9 wineboot.exe
 
-[[ "$XDG_CURRENT_DESKTOP" == "Hyprland" ]] \
+[ "$XDG_CURRENT_DESKTOP" = "Hyprland" ] \
     && source $(which set-hyprland-socket) \
     && hyprctl --batch "dispatch workspace 1 ; dispatch togglespecialworkspace steam"
 

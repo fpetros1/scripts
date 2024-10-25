@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-if [ "$1" == "gui" ]; then
-    VISUAL=$([ ! -z "$VISUAL" ] && echo "$VISUAL" || echo "neovide")
+if [ "$1" = "gui" ]; then
+    VISUAL=$([ -n "$VISUAL" ] && echo "$VISUAL" || echo "neovide")
     "$VISUAL" "$hypr"
     exit 0
 fi

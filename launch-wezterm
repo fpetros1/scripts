@@ -1,3 +1,3 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-[[ -z "$@" ]] && wezterm || wezterm start --cwd "$@"
+[ -z "$@" ] && wezterm || wezterm start --cwd "$@"

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 VESKTOP_PROCESSES=$(ps aux | grep "vesktop/app.asar" |  wc -l)
 

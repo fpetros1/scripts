@@ -1,13 +1,13 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 ARG_STRING=""
 
 while read arg
 do
-	if [[ ! -z $arg ]]; then
+	if [ -n $arg ]; then
 		#ESCAPED_ARG=$(echo "${arg/\"/\\\"}")
 		#ESCAPED_ARG=$(echo "${ESCAPED_ARG/\ /\\\ }")
-		ARG_STRING+=$(echo "\"$arg\" ")
+		ARG_STRING="$ARG_STRING$(echo "\"$arg\" ")"
 	fi
 done < /dev/stdin
 

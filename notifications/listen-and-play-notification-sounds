@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 dbus-monitor "type='signal',sender='org.freedesktop.DBus',member='NameAcquired'" |
 while read -r line; do
-    [[ "$line" =~ ^signal ]] && play-notification-sound &
+    [ "$(echo "$line" | grep -E "^signal")" ] &&\
+        play-notification-sound &
 done

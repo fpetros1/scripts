@@ -1,15 +1,19 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-CMD="$1"
+MAP_CMD="$1"
+CMD="$2"
 ARG_STRING=""
 
 while read arg
 do
-	if [[ ! "$CMD" == "$arg" ]]; then
-		ESCAPED_ARG=$(echo "${arg/\"/\\\"}")
-		ARG_STRING+=$(echo \"$("$CMD" "$ESCAPED_ARG")\"\ )
+	if ! [ "$MAP_CMD" = "$arg" ]; then
+		ARG_STRING="$ARG_STRING$(echo $("$MAP_CMD" "$arg")\ )"
 	fi
 done < /dev/stdin
 
-echo "${ARG_STRING%%*( )}"
+#echo "${ARG_STRING%%*( )}"
+
+[ -z "$CMD" ] &&\
+    echo $ARG_STRING ||\
+    "$CMD" $ARG_STRING
 

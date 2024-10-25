@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 source $(which set-hyprland-socket)
 
 while true; do
     OUT=$(hyprctl hyprpaper listactive | grep "no wallpapers")
-    [[ ! -z "$OUT" ]] && killall hyprpaper
+    [ -n "$OUT" ] && killall hyprpaper
     sleep 5
 done

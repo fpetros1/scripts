@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
-BIN=$([[ $(which brave-nightly 2>/dev/null) ]] && echo "brave-nightly" || ([[ $(which brave-beta 2>/dev/null) ]] && echo "brave-beta" || echo "brave"))
+BIN=$([ $(which brave-nightly 2>/dev/null) ] && echo "brave-nightly" || ([ $(which brave-beta 2>/dev/null) ] && echo "brave-beta" || echo "brave"))
 EXTRA_ARGS=$(echo "$@" | tr ' ' '\n')
 
 (echo "$EXTRA_ARGS" && cat $HOME/.config/chromium-flags.conf) | xargs "$BIN"

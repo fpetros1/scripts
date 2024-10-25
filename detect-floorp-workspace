@@ -1,1 +1,3 @@
+#!/usr/bin/env dash
+
 hyprctl clients -j | jq '[.[] | select(.class == "floorp")][0]' | jq '.workspace.id'

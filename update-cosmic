@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 SCRIPT_HOME="$(dirname $(realpath "$0"))"
 

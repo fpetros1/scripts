@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 
 RESULT=$(curl -s -I "https://modules-cdn.eac-prod.on.epicgames.com/modules/5de28b783f9a47a1a1f88bca7b1256ef/08600440b54c42239b82a79131ad866d/linux64")
 
 RESULT_CODE=$(echo $RESULT | head -n 1 | cut -d' ' -f2)
 
-[[ $RESULT_CODE == 200 ]] &&\
+[ $RESULT_CODE -eq 200 ] &&\
     notify-send "Lost Ark is ready" &&\
     echo "Lost Ark is ready" ||
     echo "Lost Ark is not ready"
