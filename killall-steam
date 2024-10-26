@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 kill -9 $(ps ax |grep "steam" | awk -F " " '{ print $1 }')
 wineserver -l

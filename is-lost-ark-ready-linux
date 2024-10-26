@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 RESULT=$(curl -s -I "https://modules-cdn.eac-prod.on.epicgames.com/modules/5de28b783f9a47a1a1f88bca7b1256ef/08600440b54c42239b82a79131ad866d/linux64")
 

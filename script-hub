@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 SCRIPTS_DIR=$([ -z "$hypr"] && echo "$HOME/.config/hypr/scripts" || echo "$hypr/scripts")
 

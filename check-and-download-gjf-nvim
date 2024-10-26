@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 REPO="https://api.github.com/repos/google/google-java-format/releases/latest"
 TEMP=$(mktemp)

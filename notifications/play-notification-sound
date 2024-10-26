@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 LOCK_FILE="$XDG_RUNTIME_DIR/notif-sound.lock"
 

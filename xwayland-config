@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 # Wait for XWayland to Start
 XWAYLAND_PID=$(pidof Xwayland)

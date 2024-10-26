@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 GENERAL_TWEAKS="general-tweaks"
 EOS_TWEAKS="eos-ovl-tweaks"

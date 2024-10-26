@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 trap "killall -q playerctld; exit" SIGINT ERR EXIT
 

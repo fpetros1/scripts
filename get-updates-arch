@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 CHECKUPDATES_CMD="checkupdates"
 CHECK_AUR_UPDATES_CMD="aur-check-updates --color always"

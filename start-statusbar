@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 CONFIG="$hypr/config/waybar/config-hypr.jsonc"
 STYLE="$hypr/config/waybar/style.css"

@@ -1,2 +1,2 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 echo "\nPress \033[34;32m[Enter]\033[34;0m to continue..." && read dummy

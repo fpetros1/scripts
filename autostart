@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 killall -e -q xdg-desktop-portal-gtk
 killall -e -q xdg-desktop-portal-hyprland

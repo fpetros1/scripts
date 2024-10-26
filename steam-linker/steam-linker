@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 SCRIPT_HOME="$(dirname $(realpath "$0"))"
 STEAMAPPS_JSON="$SCRIPT_HOME/steamapps.json"

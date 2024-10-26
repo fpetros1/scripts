@@ -1,2 +1,2 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 rclone copy $HOME/Drive proton:/

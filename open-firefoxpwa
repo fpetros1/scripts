@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 DESKTOP_FILE=$(get-firefoxpwa-desktop-file "$1")
 EXEC_LINE=$(cat $DESKTOP_FILE | grep "Exec=" | cut -d "=" -f2- | sed 's/\%u//')

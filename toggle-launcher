@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env sh
 
 PIDS=$(pidof wofi)
 OPEN_LAUNCHER="wofi --show drun"
