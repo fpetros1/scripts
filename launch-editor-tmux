@@ -1,7 +1,23 @@
 #!/usr/bin/env sh
 
-if [ -z "$1" ] || [ "$1" = "." ]; then
+REALPATH=$(readlink -f "$1")
+TARGET_DIR="$(dirname "$REALPATH")"
+
+is_attached_session() {
+    if [ -n "$(tmux ls | grep "$1" | grep "attached")" ]; then
+        echo "true"
+    fi
+    echo ""
+}
+
+if [ -z "$1" ] || [ "$TARGET_DIR" = "." ]; then
     SESSION=$(basename $(pwd))
+
+    if [ $(is_attached_session "$SESSION") ]; then
+        TMUX="" launch-editor $1
+        exit
+    fi
+
     tmux new -A -c $(pwd) -d -s "$SESSION" "$EDITOR" .
     tmux switch-client -t "$SESSION" 
     exit
@@ -13,15 +29,23 @@ trap "cd ${OLD_PWD}; exit" INT EXIT
 
 if [ -d "$1" ]; then 
     SESSION=$(basename "$1")
+
+    if [ $(is_attached_session "$SESSION") ]; then
+        TMUX="" launch-editor $1
+        exit
+    fi
+
     tmux new -A -c "$1" -d -s "$SESSION" "$EDITOR" .
     tmux switch-client -t "$SESSION" 
     exit
 fi
 
-REALPATH=$(readlink -f "$1")
+SESSION="$(echo $(basename $TARGET_DIR) | sed 's|^\.|_|g')"
 
-TARGET_DIR="$(dirname "$REALPATH")"
+if [ $(is_attached_session "$SESSION") ]; then
+    TMUX="" launch-editor $1
+    exit
+fi
 
-SESSION="$(basename $TARGET_DIR)"
 tmux new-session -A -c "$TARGET_DIR" -d -s "$SESSION" "$EDITOR" "$REALPATH"
 tmux switch-client -t "$SESSION" 

@@ -1,25 +1,52 @@
 #!/usr/bin/env sh
 
-PROMPT="Action:"
-PIDS="$(pidof wofi)"
+PROMPT="Action: "
+PIDS="$(run-launcher --pid)"
 
 if [ -n "$PIDS" ]; then
-    kill -9 "$(pidof wofi)"
+    kill -9 $PIDS
     exit
 fi 
-entries="󰌾\tLock\n\tLogout\n⏾\tSuspend\n󰑓\tReboot\n⏻\tShutdown"
+entries="󰌾 Lock\n Logout\n⏾ Suspend\n󰑓 Reboot\n⏻ Shutdown"
 
-selected=$(echo $entries | wofi --show dmenu -no-show-icons -i -p "$PROMPT" | awk '{print tolower($2)}')
+selected=$(echo $entries | run-launcher "$PROMPT" | awk '{print tolower($2)}')
+
+apply_lock() {
+    case $XDG_CURRENT_DESKTOP in
+        Hyprland)
+            lock-system;;
+        KDE)
+            loginctl lock-session;;
+        COSMIC)
+            loginctl lock-session;;
+        *)
+            notify-send "Not Supported";;
+    esac
+            
+}
+
+apply_logout() {
+    case $XDG_CURRENT_DESKTOP in
+        Hyprland)
+            lock-system;;
+        KDE)
+            qdbus6 org.kde.Shutdown /Shutdown org.kde.Shutdown.logout;;
+        COSMIC)
+            cosmic-session-logout;;
+        *)
+            notify-send "Not Supported";;
+    esac
+}
 
 case $selected in
   lock)
-	  lock-system;;
+      apply_lock;;
   logout)
-    hyprctl dispatch exit;;
+      apply_logout;;
   suspend)
-    exec systemctl suspend;;
+      exec systemctl suspend;;
   reboot)
-    exec systemctl reboot;;
+      exec systemctl reboot;;
   shutdown)
-    exec systemctl poweroff -i;;
+      exec systemctl poweroff -i;;
 esac

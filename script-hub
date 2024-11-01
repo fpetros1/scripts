@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+PIDS=$(run-launcher --pid)
+
+[ -n "$PIDS" ] &&\
+    kill $PIDS && exit 1
+
 SCRIPTS_DIR=$([ -z "$hypr"] && echo "$HOME/.config/hypr/scripts" || echo "$hypr/scripts")
 
 SELECTED="$(command find $SCRIPTS_DIR | \
@@ -7,10 +12,10 @@ SELECTED="$(command find $SCRIPTS_DIR | \
 	map basename | \
     grep -v "^\." | \
     cut -d'.' -f1 | \
-	wofi --show dmenu -i -p "Pick a Script:")"
+	run-launcher "Pick a Script: ")"
 
 if [ -n $SELECTED ]; then
-	ACTION=$(echo "Run\nEdit\nMake Executable\nCreate Link" | wofi --show dmenu -p "Choose an Action:")
+	ACTION=$(echo "Run\nEdit\nMake Executable\nCreate Link" | run-launcher "Choose an Action: ")
 
 	SCRIPT_REAL_PATH=$(find "$SCRIPTS_DIR" -wholename "*/$SELECTED*")
 

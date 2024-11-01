@@ -1,0 +1,7 @@
+#!/bin/sh
+
+PIDS="$(pidof tofi)"
+
+[ -n "$PIDS" ] && kill $PIDS && exit 0
+
+tofi-drun --drun-launch=true

@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+LAUNCHER=1
+
+if [ "$1" = "--pid" ]; then
+    case $LAUNCHER in
+        1) echo $(pidof tofi);;
+        2) echo $(pidof rofi);;
+        *) echo "Unsupported Launcher!";;
+    esac
+    exit
+fi
+
+case $LAUNCHER in
+    1) tofi --prompt-text "$1" < /dev/stdin;;
+    2) rofi -dmenu -p "$1" < /dev/stdin;;
+    *) echo "Unsupported Launcher!";;
+esac

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 SEARCH=$([ -z "$@" ] && wofi -p "Search paru:" --show dmenu || echo "$@")
-SELECTED=$(paru -Ss "$SEARCH" | grep "^.*/.* \[" | wofi --show dmenu -i -p "PKG:" | awk '{print $1;}')
+SELECTED=$(paru -Ss "$SEARCH" | grep "^.*/.* \[" | run-launcher "PKG: " | awk '{print $1;}')
 
 if [ -n $SELECTED ]; then 
     $TERMINAL --class update-system paru -S $SELECTED; pause
