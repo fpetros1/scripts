@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+KCMSHELL_BIN="kcmshell6"
+
+SELECTION=$("$KCMSHELL_BIN" --list | tail -n +2 | awk '{print $1}' | run-launcher "Open Settings: ")
+
+if [ -n "$SELECTION" ]; then
+    "$KCMSHELL_BIN" "$SELECTION"
+fi

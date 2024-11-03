@@ -1,9 +1,10 @@
 #!/usr/bin/env sh
 
-[ -z "$hypr" ] && hypr="$HOME/.config/hypr"
-
-INITIAL_SCRIPTS_DIR="$hypr/scripts"
+INITIAL_SCRIPTS_DIR=$(dirname $(readlink -f "$0"))
 TARGET_DIR="/usr/bin"
+
+echo "Scripts Folder: $INITIAL_SCRIPTS_DIR"
+pause
 
 create_links_for_folder() {	
 	local SCRIPTS_DIR="$1"
@@ -25,10 +26,11 @@ create_link() {
 	SCRIPT_NAME=$(echo ${script##*/})
 	SCRIPT_NAME_NO_EXT=$(echo $SCRIPT_NAME | cut -d'.' -f1)
 	LINK_TARGET="$TARGET_DIR/$SCRIPT_NAME_NO_EXT"
+    echo "---------------------------------------"
 	echo "Removing current link: $LINK_TARGET"
-    sudo rm "$LINK_TARGET" 2> /dev/null
 	echo "Creating new link for: $script"
-    sudo ln -s "$script" "$LINK_TARGET"
+    echo "---------------------------------------"
+    sudo ln -fs "$script" "$LINK_TARGET"
 }
 
 create_links_for_folder "$INITIAL_SCRIPTS_DIR"
